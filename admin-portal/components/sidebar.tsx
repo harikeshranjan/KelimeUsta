@@ -12,7 +12,6 @@ import { Button } from "./ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
 import Image from "next/image";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useTheme } from "next-themes";
 
 export default function Sidebar() {
   const { isSidebarOpen, toggleSidebar, isDesktop } = useSidebar();
