@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
 import { SidebarProvider } from "@/hooks/useSidebar";
+import { LanguageProvider } from "@/hooks/useLanguage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,11 +38,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider>
-            <Sidebar />
-            <Navbar />
-            {children}
-          </SidebarProvider>
+          <LanguageProvider>
+            <SidebarProvider>
+              <Sidebar />
+              <Navbar />
+              {children}
+            </SidebarProvider>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

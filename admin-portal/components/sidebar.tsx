@@ -6,9 +6,15 @@ import { usePathname } from "next/navigation";
 import { Home, Plus, List, Languages, Users, BookOpen, CircleHelp } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import { useSidebar } from "@/hooks/useSidebar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "./ui/dropdown-menu";
+import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { Button } from "./ui/button";
+import { useLanguage } from "@/hooks/useLanguage";
+import Image from "next/image";
 
 export default function Sidebar() {
   const { isSidebarOpen, toggleSidebar, isDesktop } = useSidebar();
+  const { language, setLanguage } = useLanguage();
   const pathname = usePathname();
 
   const isActiveLink = (path: string) => {
@@ -17,9 +23,8 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`fixed top-0 left-0 min-h-screen w-60 bg-white border-r shadow-sm dark:bg-gray-950 dark:border-gray-800 z-50 transition-all duration-200 ${
-        isDesktop ? 'translate-x-0' : isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}
+      className={`fixed top-0 left-0 min-h-screen w-60 bg-white border-r shadow-sm dark:bg-gray-950 dark:border-gray-800 z-50 transition-all duration-200 ${isDesktop ? 'translate-x-0' : isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
     >
       <div className="relative px-4 py-2 md:py-0">
         <div className={`flex items-center gap-2 px-2 py-3 mb-6 dark:border-gray-700`}>
@@ -70,7 +75,9 @@ export default function Sidebar() {
                 )}
               >
                 <Home size={18} />
-                <span className="font-medium">Home</span>
+                <span className="font-medium">
+                  { language === "en" ? "Dashboard" : language === "tr" ? "Anasayfa" : "Dashboard" }
+                </span>
               </Link>
             </li>
 
@@ -79,7 +86,7 @@ export default function Sidebar() {
               <div className="px-2">
                 <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3 flex items-center gap-2">
                   <span className="w-8 h-[1px] bg-gray-300 dark:bg-gray-700"></span>
-                  Vocabularies
+                  { language === "en" ? "Vocabularies" : language === "tr" ? "Kelimeler" : "Vocabularies" }
                   <span className="w-full h-[1px] bg-gray-300 dark:bg-gray-700"></span>
                 </p>
                 <ul className="space-y-1">
@@ -96,7 +103,9 @@ export default function Sidebar() {
                       )}
                     >
                       <Plus size={18} />
-                      <span className="font-medium">Add Words</span>
+                      <span className="font-medium">
+                        { language === "en" ? "Add Words" : language === "tr" ? "Kelime Ekle" : "Add Words" }
+                      </span>
                     </Link>
                   </li>
                   <li>
@@ -112,7 +121,9 @@ export default function Sidebar() {
                       )}
                     >
                       <List size={18} />
-                      <span className="font-medium">Manage Words</span>
+                      <span className="font-medium">
+                        { language === "en" ? "Manage Words" : language === "tr" ? "Kelimeleri Yönet" : "Manage Words" }
+                      </span>
                     </Link>
                   </li>
                 </ul>
@@ -124,28 +135,43 @@ export default function Sidebar() {
               <div className="px-2">
                 <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3 flex items-center gap-2">
                   <span className="w-8 h-[1px] bg-gray-300 dark:bg-gray-700"></span>
-                  Settings
+                  { language === "en" ? "Settings" : language === "tr" ? "Ayarlar" : "Settings" }
                   <span className="w-full h-[1px] bg-gray-300 dark:bg-gray-700"></span>
                 </p>
                 <ul className="space-y-2">
                   <li className="px-2">
                     <ModeToggle />
                   </li>
-                  <li>
-                    <Link
-                      href="/translate"
-                      className={cn(
-                        "flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200",
-                        "border border-transparent",
-                        "hover:border-purple-100 hover:bg-purple-50/50 hover:text-purple-700",
-                        "dark:hover:border-purple-900 dark:hover:bg-purple-950/50 dark:hover:text-purple-400",
-                        "hover:shadow-sm",
-                        isActiveLink("/translate") && "bg-purple-50 text-purple-700 border-purple-100 shadow-sm dark:bg-purple-950/50 dark:text-purple-400 dark:border-purple-900"
-                      )}
-                    >
-                      <Languages size={18} />
-                      <span className="font-medium">Translate</span>
-                    </Link>
+                  <li className="flex items-center justify-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="w-[92%] justify-start gap-2"
+                        >
+                          { language === "en" ? (
+                            <Image src="/en.png" width={20} height={20} alt="English" />
+                          ) : language === "tr" ? (
+                            <Image src="/tr.png" width={20} height={20} alt="Turkish" />
+                          ) : (
+                            <Image src="/en.png" width={20} height={20} alt="System" />
+                          ) }
+                          <span className="font-medium">
+                            {language === "en" ? "English" : language === "tr" ? "Türkçe" : "System"}
+                          </span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => setLanguage("en")} className="flex items-center gap-3">
+                          <Image src="/en.png" width={20} height={20} alt="English" />
+                          { language === "en" ? "English" : language === "tr" ? "İngilizce" : "English" }
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setLanguage("tr")} className="flex items-center gap-3">
+                          <Image src="/tr.png" width={20} height={20} alt="Turkish" />
+                          { language === "en" ? "Turkish" : language === "tr" ? "Türkçe" : "Turkish" }
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </li>
                 </ul>
               </div>
@@ -156,7 +182,7 @@ export default function Sidebar() {
               <div className="px-2">
                 <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3 flex items-center gap-2">
                   <span className="w-8 h-[1px] bg-gray-300 dark:bg-gray-700"></span>
-                  Other
+                  { language === "en" ? "Other" : language === "tr" ? "Diğer" : "Other" }
                   <span className="w-full h-[1px] bg-gray-300 dark:bg-gray-700"></span>
                 </p>
                 <ul className="space-y-2">
@@ -173,7 +199,9 @@ export default function Sidebar() {
                       )}
                     >
                       <Users size={18} />
-                      <span className="font-medium">About Us</span>
+                      <span className="font-medium">
+                        { language === "en" ? "About Us" : language === "tr" ? "Hakkımızda" : "About Us" }
+                      </span>
                     </Link>
                   </li>
                   <li>
@@ -189,7 +217,9 @@ export default function Sidebar() {
                       )}
                     >
                       <CircleHelp size={18} />
-                      <span className="font-medium">How to use?</span>
+                      <span className="font-medium">
+                        { language === "en" ? "Contact Us" : language === "tr" ? "İletişim" : "Contact Us" }
+                      </span>
                     </Link>
                   </li>
                 </ul>
