@@ -11,11 +11,16 @@ import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
 import Image from "next/image";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useTheme } from "next-themes";
 
 export default function Sidebar() {
   const { isSidebarOpen, toggleSidebar, isDesktop } = useSidebar();
   const { language, setLanguage } = useLanguage();
   const pathname = usePathname();
+
+  useHotkeys('ctrl+b', toggleSidebar);
+  useHotkeys('space+l', () => language === "en" ? setLanguage("tr") : setLanguage("en"));
 
   const isActiveLink = (path: string) => {
     return pathname === path;
