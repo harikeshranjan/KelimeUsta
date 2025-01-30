@@ -47,7 +47,7 @@ export default function AddWordsPage() {
         <div className="flex items-center gap-3 mb-6">
           <BookPlus className="h-8 w-8 text-purple-600 dark:text-purple-400" />
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-            {language === "en" ? "Add New Words" : "Yeni Kelimeler Ekle"}
+            {language === "en" ? "Add New Words" : language === "tr" ? "Yeni Kelimeler Ekle" : "Peyvên Nû lê zêde bikin"}
           </h1>
         </div>
 

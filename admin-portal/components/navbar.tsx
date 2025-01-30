@@ -23,7 +23,7 @@ export default function Navbar() {
             <input
               type="text"
               className="w-[90%] md:w-[30rem] h-[2.6rem] pl-10 pr-4 tracking-wider border border-gray-400 rounded-lg dark:bg-gray-950 dark:border-gray-500 dark:text-gray-100 active:ring-1 active:ring-purple-600 dark:active:ring-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 dark:focus:ring-purple-600"
-              placeholder={ language === "tr" ? "Kelime ara" : "Search word" }
+              placeholder={language === "en" ? "Search for a word" : language === "tr" ? "Kelime ara" : "Kelime axtar"}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"

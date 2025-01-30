@@ -9,7 +9,7 @@ const LanguageContext = createContext<{
   setLanguage: Dispatch<SetStateAction<string>>;
 }>({
   language: "en",
-  setLanguage: () => {},
+  setLanguage: () => { },
 });
 
 export const useLanguage = () => {
@@ -18,8 +18,11 @@ export const useLanguage = () => {
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const [language, setLanguage] = useState<string>(() => {
-    const storedLanguage = localStorage.getItem("userLanguage");
-    return storedLanguage || "en";
+    if (typeof window !== "undefined") {
+      const storedLanguage = localStorage.getItem("userLanguage");
+      return storedLanguage || "en";
+    }
+    return "en";
   });
 
   useEffect(() => {
