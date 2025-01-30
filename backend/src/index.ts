@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cors from "cors";
 
 import vocabRoutes from "./routes/vocabs";
 
@@ -11,6 +12,7 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors()); // Enable CORS for all requests
 
 mongoose.connect(process.env.MONGO_URI as string, { dbName: "KelimeUsta" })
   .then(() => console.log("[db]: Connected to database"))
