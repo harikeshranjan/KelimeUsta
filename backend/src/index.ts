@@ -10,12 +10,18 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
+app.options("*", cors()); // include before other routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-  origin: process.env.CLIENT_URL as string,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      process.env.CLIENT_URL as string,
+      "http://localhost:3000",
+    ],
+    credentials: true,
+  })
+);
 
 mongoose.connect(process.env.MONGO_URI as string, { dbName: "KelimeUsta" })
   .then(() => console.log("[db]: Connected to database"))
