@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Book, Gamepad, Users, Trophy } from "lucide-react";
+import { BookOpen, Book, Gamepad, Trophy } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";

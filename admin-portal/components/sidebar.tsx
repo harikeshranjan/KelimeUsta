@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Plus, List, Languages, Users, BookOpen, CircleHelp } from "lucide-react";
+import { Home, Plus, List, Users, BookOpen, CircleHelp } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import { useSidebar } from "@/hooks/useSidebar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "./ui/dropdown-menu";

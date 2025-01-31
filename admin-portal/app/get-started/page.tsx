@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Keyboard, FileSpreadsheet, Globe, Layout, ChevronRight, Book, Settings, Zap } from "lucide-react";
+import { Keyboard, FileSpreadsheet, Globe, ChevronRight, Book, Settings, Zap } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function GetStarted() {
@@ -95,7 +95,7 @@ export default function GetStarted() {
             <Alert className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 border-purple-200 dark:border-purple-800">
               <AlertDescription className="flex items-center gap-2 text-purple-700 dark:text-purple-300">
                 <Zap className="h-4 w-4" />
-                You'll receive instant feedback when your word is added successfully.
+                You&apos;ll receive instant feedback when your word is added successfully.
               </AlertDescription>
             </Alert>
           </CardContent>

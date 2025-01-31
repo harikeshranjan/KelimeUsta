@@ -14,7 +14,7 @@ export default function ContactUs() {
         <div className="absolute inset-0 bg-purple-600/70"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-5xl font-bold mb-6 tracking-tight">Let's Build Something Amazing Together</h1>
+            <h1 className="text-5xl font-bold mb-6 tracking-tight">Let&apos;s Build Something Amazing Together</h1>
             <p className="text-xl text-purple-100 max-w-2xl mx-auto">
               Whether you have a question, want to start a project, or simply want to connect.
             </p>
@@ -59,7 +59,7 @@ export default function ContactUs() {
             <div>
               <h2 className="text-3xl font-bold mb-8">Get in Touch</h2>
               <p className="text-gray-600 mb-8">
-                I'm excited to hear from you. Let's discuss how we can work together to bring your ideas to life.
+                I&apos;m excited to hear from you. Let&apos;s discuss how we can work together to bring your ideas to life.
               </p>
             </div>
 
