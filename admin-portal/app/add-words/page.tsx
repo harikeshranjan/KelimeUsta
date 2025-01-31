@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { BookPlus } from "lucide-react";
+import { BookPlus, Loader2 } from "lucide-react";
 import { useLanguage } from '@/hooks/useLanguage';
 import { useToast } from '@/hooks/use-toast';
 
@@ -23,13 +23,14 @@ export default function AddWordsPage() {
   const [wordType, setWordType] = useState('noun');
   const [example, setExample] = useState('');
   const [exampleTranslation, setExampleTranslation] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const { language } = useLanguage();
   const { toast } = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(process.env.NEXT_PUBLIC_API_URL);
+    setIsLoading(true);
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/vocabs/add`, {
@@ -82,6 +83,14 @@ export default function AddWordsPage() {
       }
     } catch (error) {
       console.error(error);
+      toast({
+        title: 'An error occurred!',
+        description: 'An error occurred while adding the word to your vocabulary list.',
+        variant: 'destructive',
+        duration: 5000,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -126,6 +135,7 @@ export default function AddWordsPage() {
                     value={word}
                     onChange={(e) => setWord(e.target.value)}
                     className="focus:ring-2 focus:ring-purple-500"
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -133,7 +143,7 @@ export default function AddWordsPage() {
                   <Label htmlFor="wordType" className="text-sm font-medium">
                     {language === "en" ? "Word Type" : "Kelime Türü"}
                   </Label>
-                  <Select value={wordType} onValueChange={setWordType}>
+                  <Select value={wordType} onValueChange={setWordType} disabled={isLoading}>
                     <SelectTrigger className="w-full">
                       <SelectValue
                         placeholder={language === "en" ? "Select a word type" : "Bir kelime türü seçin"}
@@ -160,6 +170,7 @@ export default function AddWordsPage() {
                   value={meaning}
                   onChange={(e) => setMeaning(e.target.value)}
                   className="min-h-[100px] focus:ring-2 focus:ring-purple-500"
+                  disabled={isLoading}
                 />
               </div>
 
@@ -173,6 +184,7 @@ export default function AddWordsPage() {
                   value={example}
                   onChange={(e) => setExample(e.target.value)}
                   className="min-h-[100px] focus:ring-2 focus:ring-purple-500"
+                  disabled={isLoading}
                 />
               </div>
 
@@ -186,18 +198,27 @@ export default function AddWordsPage() {
                   value={exampleTranslation}
                   onChange={(e) => setExampleTranslation(e.target.value)}
                   className="min-h-[100px] focus:ring-2 focus:ring-purple-500"
+                  disabled={isLoading}
                 />
               </div>
 
               <div className='flex justify-end items-center gap-4'>
-                <Button variant="outline" type="button">
+                <Button variant="outline" type="button" disabled={isLoading}>
                   {language === "en" ? "Manage Words" : "Kelimeleri Yönet"}
                 </Button>
                 <Button
                   type="submit"
                   className="bg-purple-600 hover:bg-purple-700 text-white"
+                  disabled={isLoading}
                 >
-                  {language === "en" ? "Add Word" : "Kelime Ekle"}
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      {language === "en" ? "Adding..." : "Ekleniyor..."}
+                    </>
+                  ) : (
+                    language === "en" ? "Add Word" : "Kelime Ekle"
+                  )}
                 </Button>
               </div>
             </form>
