@@ -67,7 +67,7 @@ export default function ContactUs() {
               <Card className="hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-4">
-                    <div className="bg-purple-100 p-3 rounded-full">
+                    <div className="bg-purple-100 dark:bg-purple-700/40 p-3 rounded-full">
                       <MapPin className="h-6 w-6 text-purple-600" />
                     </div>
                     <div>
@@ -81,7 +81,7 @@ export default function ContactUs() {
               <Card className="hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-4">
-                    <div className="bg-purple-100 p-3 rounded-full">
+                    <div className="bg-purple-100 dark:bg-purple-700/40 p-3 rounded-full">
                       <Mail className="h-6 w-6 text-purple-600" />
                     </div>
                     <div>

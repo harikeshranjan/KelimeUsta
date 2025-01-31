@@ -34,6 +34,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
+import { convertToCSV, downloadCSV } from "@/lib/export";
 
 interface Word {
   _id: number;
@@ -45,6 +46,7 @@ interface Word {
 }
 
 export default function ManageWordsPage() {
+  const [exporting, setExporting] = useState(false);
   const [words, setWords] = useState<Word[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -108,7 +110,7 @@ export default function ManageWordsPage() {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/vocabs/delete/${wordId}`, {
         method: 'DELETE',
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to delete word');
       }
@@ -191,6 +193,37 @@ export default function ManageWordsPage() {
     </div>
   );
 
+  const handleExport = () => {
+    // defining headers mapping
+    const header = {
+      word: "Word",
+      type: "Type",
+      meaning: "Meaning",
+      example: "Example",
+      exampleMeaning: "Example Meaning",
+    }
+
+    try {
+      // set exporting state to true
+      setExporting(true);
+
+      // convert filtered data to CSV
+      const csvContent = convertToCSV(filteredWords, header);
+
+      // generate a filename with the current date
+      const date = new Date().toISOString().split('T')[0];
+      const filename = `kelime-usta -${date}.csv`;
+
+      // trigger download
+      downloadCSV(csvContent, filename);
+    } catch (error) {
+      console.error("Failed to export data:", error);
+    } finally {
+      // set exporting state to false
+      setExporting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen ml-0 md:ml-64 flex flex-col p-4 md:p-8">
       <div className="max-w-7xl w-full mx-auto">
@@ -223,18 +256,38 @@ export default function ManageWordsPage() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="center">
-                      <DropdownMenuItem>Type</DropdownMenuItem>
-                      <DropdownMenuItem>Ascending</DropdownMenuItem>
-                      <DropdownMenuItem>Descending</DropdownMenuItem>
+                      <DropdownMenuItem>Noun</DropdownMenuItem>
+                      <DropdownMenuItem>Verb</DropdownMenuItem>
+                      <DropdownMenuItem>Adjective</DropdownMenuItem>
+                      <DropdownMenuItem>Adverb</DropdownMenuItem>
+                      <DropdownMenuItem>Conjunction</DropdownMenuItem>
+                      <DropdownMenuItem>Preposition</DropdownMenuItem>
+                      <DropdownMenuItem>Interjection</DropdownMenuItem>
+                      <DropdownMenuItem>Pronouns</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Button variant="outline" size="sm" className="flex items-center gap-2">
-                    <FileDown className="h-4 w-4" />
-                    Export
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                    onClick={handleExport}
+                    disabled={exporting || words.length === 0}
+                  >
+                    {exporting ? (
+                      <>
+                        <span className="animate-spin mr-2">⏳</span>
+                        Exporting...
+                      </>
+                    ) : (
+                      <>
+                        <FileDown className="h-4 w-4" />
+                        Export
+                      </>
+                    )}
                   </Button>
-                  <Button 
-                    size="sm" 
-                    className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700" 
+                  <Button
+                    size="sm"
+                    className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700"
                     onClick={() => router.push("/add-words")}
                   >
                     <Plus className="h-4 w-4" />
@@ -294,13 +347,13 @@ export default function ManageWordsPage() {
                                   </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                  <DropdownMenuItem 
+                                  <DropdownMenuItem
                                     className="flex items-center gap-2"
                                     onClick={() => router.push(`/edit-word/${word._id}`)}
                                   >
                                     <Pencil className="h-4 w-4" /> Edit
                                   </DropdownMenuItem>
-                                  <DropdownMenuItem 
+                                  <DropdownMenuItem
                                     className="flex items-center gap-2 text-red-600 dark:text-red-400"
                                     onClick={() => handleDelete(word._id)}
                                   >
