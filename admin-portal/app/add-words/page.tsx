@@ -16,6 +16,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { BookPlus, Loader2 } from "lucide-react";
 import { useLanguage } from '@/hooks/useLanguage';
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 export default function AddWordsPage() {
   const [word, setWord] = useState('');
@@ -27,6 +28,7 @@ export default function AddWordsPage() {
 
   const { language } = useLanguage();
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -203,7 +205,7 @@ export default function AddWordsPage() {
               </div>
 
               <div className='flex justify-end items-center gap-4'>
-                <Button variant="outline" type="button" disabled={isLoading}>
+                <Button variant="outline" type="button" disabled={isLoading} onClick={() => router.push('/manage-words')}>
                   {language === "en" ? "Manage Words" : "Kelimeleri Yönet"}
                 </Button>
                 <Button

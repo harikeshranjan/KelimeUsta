@@ -36,7 +36,7 @@ import {
 } from "lucide-react";
 
 interface Word {
-  id: number;
+  _id: number;
   word: string;
   meaning: string;
   type: string;
@@ -105,8 +105,7 @@ export default function ManageWordsPage() {
 
   const handleDelete = async (wordId: number) => {
     try {
-      // Replace with your actual delete API endpoint
-      const response = await fetch(`/api/words/${wordId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/vocabs/delete/${wordId}`, {
         method: 'DELETE',
       });
       
@@ -114,11 +113,9 @@ export default function ManageWordsPage() {
         throw new Error('Failed to delete word');
       }
 
-      // Remove the word from the local state
-      setWords(prevWords => prevWords.filter(word => word.id !== wordId));
+      setWords(prevWords => prevWords.filter(word => word._id !== wordId));
     } catch (error) {
       console.error("Failed to delete word:", error);
-      // You might want to show an error message to the user here
     }
   };
 
@@ -269,7 +266,7 @@ export default function ManageWordsPage() {
                     </TableHeader>
                     <TableBody>
                       {currentWords.map((word, index) => (
-                        <TableRow key={word.id}>
+                        <TableRow key={word._id}>
                           <TableCell className="text-center font-medium">
                             {startIndex + index + 1}
                           </TableCell>
@@ -299,13 +296,13 @@ export default function ManageWordsPage() {
                                 <DropdownMenuContent align="end">
                                   <DropdownMenuItem 
                                     className="flex items-center gap-2"
-                                    onClick={() => router.push(`/edit-word/${word.id}`)}
+                                    onClick={() => router.push(`/edit-word/${word._id}`)}
                                   >
                                     <Pencil className="h-4 w-4" /> Edit
                                   </DropdownMenuItem>
                                   <DropdownMenuItem 
                                     className="flex items-center gap-2 text-red-600 dark:text-red-400"
-                                    onClick={() => handleDelete(word.id)}
+                                    onClick={() => handleDelete(word._id)}
                                   >
                                     <Trash2 className="h-4 w-4" /> Delete
                                   </DropdownMenuItem>
