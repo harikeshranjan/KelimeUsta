@@ -194,6 +194,24 @@ export default function Sidebar() {
                 <ul className="space-y-2">
                   <li>
                     <Link
+                      href="/get-started"
+                      className={cn(
+                        "flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200",
+                        "border border-transparent",
+                        "hover:border-purple-100 hover:bg-purple-50/50 hover:text-purple-700",
+                        "dark:hover:border-purple-900 dark:hover:bg-purple-950/50 dark:hover:text-purple-400",
+                        "hover:shadow-sm",
+                        isActiveLink("/get-started") && "bg-purple-50 text-purple-700 border-purple-100 shadow-sm dark:bg-purple-950/50 dark:text-purple-400 dark:border-purple-900"
+                      )}
+                    >
+                      <Users size={18} />
+                      <span className="font-medium">
+                        { language === "en" ? "Get Started" : language === "tr" ? "Başlangıç" : language === "ku" ? "Destpêk" : "Get Started" }
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/about-us"
                       className={cn(
                         "flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200",
