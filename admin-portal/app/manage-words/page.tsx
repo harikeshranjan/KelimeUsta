@@ -5,36 +5,12 @@ import { useRouter } from "next/navigation";
 import debounce from "lodash/debounce";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Book,
-  MoreVertical,
-  Pencil,
-  Trash2,
-  Search,
-  Plus,
-  FileDown,
-  Filter,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from "lucide-react";
+import { Book, MoreVertical, Pencil, Trash2, Search, Plus, FileDown, Filter, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, } from "lucide-react";
 import { convertToCSV, downloadCSV } from "@/lib/export";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface Word {
   _id: number;
@@ -54,6 +30,7 @@ export default function ManageWordsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(30);
   const router = useRouter();
+  const { language } = useLanguage();
 
   useEffect(() => {
     const fetchWords = async () => {
@@ -125,7 +102,7 @@ export default function ManageWordsPage() {
     <div className="flex flex-col md:flex-row gap-4 items-center justify-between py-4">
       <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
         <span>
-          Showing {startIndex + 1} to {Math.min(endIndex, filteredWords.length)} of {filteredWords.length} entries
+          {language === "en" ? "Showing" : "Gösteriliyor"}{" "} {startIndex + 1}{" "} {language === "en" ? "to" : "ile"}{" "} {Math.min(endIndex, filteredWords.length)}{" "} {language === "en" ? "of" : "arasi"}{" "} {filteredWords.length}{" "} {language === "en" ? "words" : "kelime"}
         </span>
       </div>
       <div className="flex items-center gap-2">
@@ -224,25 +201,38 @@ export default function ManageWordsPage() {
     }
   };
 
+  const wordTypes = [
+    { value: "noun", label: "Noun", trLabel: "İsim" },
+    { value: "verb", label: "Verb", trLabel: "Fiil" },
+    { value: "adjective", label: "Adjective", trLabel: "Sıfat" },
+    { value: "adverb", label: "Adverb", trLabel: "Zarf" },
+    { value: "conjunction", label: "Conjunction", trLabel: "Bağlaç" },
+    { value: "preposition", label: "Preposition", trLabel: "Edat" },
+    { value: "interjection", label: "Interjection", trLabel: "Ünlem" },
+    { value: "pronouns", label: "Pronouns", trLabel: "Zamir" },
+  ] as const;
+
   return (
     <div className="min-h-screen ml-0 md:ml-64 flex flex-col p-4 md:p-8">
       <div className="max-w-7xl w-full mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <Book className="h-8 w-8 text-purple-600 dark:text-purple-400" />
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-            Manage Words
+            {language === "en" ? "Manage Words" : "Kelimeleri Yönet"}
           </h1>
         </div>
 
         <Card className="border-purple-100 dark:border-purple-900">
           <CardHeader>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <CardTitle className="text-xl font-semibold">Word Collection</CardTitle>
+              <CardTitle className="text-xl font-semibold">
+                {language === "en" ? "Word Collection" : "Kelime Koleksiyonu"}
+              </CardTitle>
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="relative">
                   <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                   <Input
-                    placeholder="Search words..."
+                    placeholder={language === "en" ? "Search words" : "Kelimeleri ara"}
                     onChange={(e) => debouncedSearch(e.target.value)}
                     className="pl-8 w-full md:w-[250px]"
                   />
@@ -252,18 +242,19 @@ export default function ManageWordsPage() {
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" size="sm" className="flex items-center gap-2">
                         <Filter className="h-4 w-4" />
-                        Filter
+                        {language === "en" ? "Filter" : "Filtrele"}
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="center">
-                      <DropdownMenuItem>Noun</DropdownMenuItem>
-                      <DropdownMenuItem>Verb</DropdownMenuItem>
-                      <DropdownMenuItem>Adjective</DropdownMenuItem>
-                      <DropdownMenuItem>Adverb</DropdownMenuItem>
-                      <DropdownMenuItem>Conjunction</DropdownMenuItem>
-                      <DropdownMenuItem>Preposition</DropdownMenuItem>
-                      <DropdownMenuItem>Interjection</DropdownMenuItem>
-                      <DropdownMenuItem>Pronouns</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSearchTerm("")}>{language === "en" ? "All" : "Hepsi"}</DropdownMenuItem>
+                      {wordTypes.map((type) => (
+                        <DropdownMenuItem
+                          key={type.value}
+                          onClick={() => setSearchTerm(type.label)}
+                        >
+                          {language === "en" ? type.label : type.trLabel}
+                        </DropdownMenuItem>
+                      ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Button
@@ -276,12 +267,12 @@ export default function ManageWordsPage() {
                     {exporting ? (
                       <>
                         <span className="animate-spin mr-2">⏳</span>
-                        Exporting...
+                        {language === "en" ? "Exporting..." : "Dışa Aktarılıyor..."}
                       </>
                     ) : (
                       <>
                         <FileDown className="h-4 w-4" />
-                        Export
+                        {language === "en" ? "Export" : "Dışa Aktar"}
                       </>
                     )}
                   </Button>
@@ -291,7 +282,7 @@ export default function ManageWordsPage() {
                     onClick={() => router.push("/add-words")}
                   >
                     <Plus className="h-4 w-4" />
-                    Add Word
+                    {language === "en" ? "Add Word" : "Kelime Ekle"}
                   </Button>
                 </div>
               </div>
@@ -302,19 +293,22 @@ export default function ManageWordsPage() {
               <div className="text-red-600 text-center py-4">{error}</div>
             )}
             {loading ? (
-              <div className="text-center py-4">Loading...</div>
+              <div className="text-center py-4">
+                <span className="animate-pulse">⏳</span>{" "}
+                {language === "en" ? "Loading words..." : "Kelimeler yükleniyor..."}
+              </div>
             ) : (
               <>
                 <div className="rounded-md border">
                   <Table className="w-[40rem] md:w-full">
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="w-16 text-center">S.No</TableHead>
-                        <TableHead>Word</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Meaning</TableHead>
-                        <TableHead>Example</TableHead>
-                        <TableHead className="w-24 text-center">Actions</TableHead>
+                        <TableHead className="w-16 text-center">{language === "en" ? "S.No" : "S.No"}</TableHead>
+                        <TableHead>{language === "en" ? "Word" : "Kelime"}</TableHead>
+                        <TableHead>{language === "en" ? "Type" : "Tür"}</TableHead>
+                        <TableHead>{language === "en" ? "Meaning" : "Anlam"}</TableHead>
+                        <TableHead>{language === "en" ? "Example" : "Örnek"}</TableHead>
+                        <TableHead className="w-24 text-center">{language === "en" ? "Actions" : "İşlemler"}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -351,13 +345,13 @@ export default function ManageWordsPage() {
                                     className="flex items-center gap-2"
                                     onClick={() => router.push(`/edit-word/${word._id}`)}
                                   >
-                                    <Pencil className="h-4 w-4" /> Edit
+                                    <Pencil className="h-4 w-4" /> {language === "en" ? "Edit" : "Düzenle"}
                                   </DropdownMenuItem>
                                   <DropdownMenuItem
                                     className="flex items-center gap-2 text-red-600 dark:text-red-400"
                                     onClick={() => handleDelete(word._id)}
                                   >
-                                    <Trash2 className="h-4 w-4" /> Delete
+                                    <Trash2 className="h-4 w-4" /> {language === "en" ? "Delete" : "Sil"}
                                   </DropdownMenuItem>
                                 </DropdownMenuContent>
                               </DropdownMenu>
