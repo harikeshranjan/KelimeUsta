@@ -27,7 +27,37 @@ export default function AddWordsPage() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission logic here
+    console.log(process.env.NEXT_PUBLIC_API_URL);
+    
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/vocabs/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          word,
+          meaning,
+          type: wordType,
+          example,
+          exampleMeaning: exampleTranslation,
+        }),
+      })
+
+      if (response.ok) {
+        setWord('');
+        setMeaning('');
+        setWordType('noun');
+        setExample('');
+        setExampleTranslation('');
+        alert('Word added successfully!');
+      } else {
+        alert('An error occurred while adding the word. Please try again later.');
+        console.error(response);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const wordTypes = [
