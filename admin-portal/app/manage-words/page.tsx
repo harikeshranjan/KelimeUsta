@@ -9,10 +9,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Book, MoreVertical, Pencil, Trash2, Search, Plus, FileDown, Filter, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, } from "lucide-react";
-import { convertToCSV, downloadCSV } from "@/lib/export";
+import { convertToCSV, downloadCSV, DataRow } from "@/lib/export";
 import { useLanguage } from "@/hooks/useLanguage";
 
-interface Word {
+interface Word extends DataRow {
   _id: number;
   word: string;
   meaning: string;

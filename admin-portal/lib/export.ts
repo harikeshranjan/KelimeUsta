@@ -1,4 +1,4 @@
-type DataRow = { [key: string]: string | number | null | undefined };
+export type DataRow = { [key: string]: string | number | null | undefined };
 
 export const convertToCSV = (data: DataRow[], headers: { [key: string]: string }) => {
   // Create header row using friendly names
