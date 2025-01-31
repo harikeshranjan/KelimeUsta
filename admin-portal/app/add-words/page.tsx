@@ -15,6 +15,7 @@ import {
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { BookPlus } from "lucide-react";
 import { useLanguage } from '@/hooks/useLanguage';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AddWordsPage() {
   const [word, setWord] = useState('');
@@ -24,11 +25,12 @@ export default function AddWordsPage() {
   const [exampleTranslation, setExampleTranslation] = useState('');
 
   const { language } = useLanguage();
+  const { toast } = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(process.env.NEXT_PUBLIC_API_URL);
-    
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/vocabs/add`, {
         method: 'POST',
@@ -50,10 +52,33 @@ export default function AddWordsPage() {
         setWordType('noun');
         setExample('');
         setExampleTranslation('');
-        alert('Word added successfully!');
-      } else {
-        alert('An error occurred while adding the word. Please try again later.');
-        console.error(response);
+
+        toast({
+          title: 'Word added successfully!',
+          description: 'The word has been added to your vocabulary list.',
+          variant: 'default',
+          duration: 5000,
+        });
+      }
+
+      if (!response.ok) {
+        const error = await response.json();
+
+        if (error.message === 'Word already exists') {
+          toast({
+            title: 'Word already exists!',
+            description: 'The word you are trying to add already exists in your vocabulary list.',
+            variant: 'destructive',
+            duration: 5000,
+          });
+        } else {
+          toast({
+            title: 'An error occurred!',
+            description: 'An error occurred while adding the word to your vocabulary list.',
+            variant: 'destructive',
+            duration: 5000,
+          });
+        }
       }
     } catch (error) {
       console.error(error);

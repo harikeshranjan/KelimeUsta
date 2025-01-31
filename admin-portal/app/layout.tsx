@@ -6,6 +6,7 @@ import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
 import { SidebarProvider } from "@/hooks/useSidebar";
 import { LanguageProvider } from "@/hooks/useLanguage";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
               <Sidebar />
               <Navbar />
               {children}
+              <Toaster />
             </SidebarProvider>
           </LanguageProvider>
         </ThemeProvider>
