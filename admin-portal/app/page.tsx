@@ -4,9 +4,11 @@ import { BookOpen, Book, Gamepad, Users, Trophy } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { language } = useLanguage();
+  const router = useRouter();
 
   return (
     <div className="ml-0 md:ml-64 mt-10 md:mt-10 p-4 md:p-8 max-w-7xl">
@@ -89,7 +91,10 @@ export default function Home() {
           {language === "en" ? "Learn more about how to use KelimeUsta Admin Portal and its features by reading the documentation and watching the tutorial videos. Click the button below to get started!" : language === "tr" ? "Belgeleri okuyarak ve öğretici videoları izleyerek KelimeUsta Yönetici Portalı ve özelliklerini nasıl kullanacağınızı öğrenin. Başlamak için aşağıdaki düğmeye tıklayın!" : "Belgeyên bixwînin û vîdyoyên ferhengê bibînin û hûn dikarin bifikirin ku hûn çawa dikarin KelimeUsta Portalê û xizmetên wê bikar bînin. Ji bo destpêkirina jêrîn li jorê li pêşkêşiyê bikin!"}
         </p>
         <div className="flex gap-4">
-          <Button className="px-6 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium shadow-md">
+          <Button
+            className="px-6 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium shadow-md"
+            onClick={() => router.push("/get-started")}
+          >
             {language === "en" ? "Get Started" : language === "tr" ? "Başlayın" : "Destpêke"}
           </Button>
 

@@ -9,7 +9,7 @@ export default function GetStarted() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen mt-16 ml-0 md:ml-64 flex flex-col p-4 md:p-8">
+    <div className="min-h-screen mt-5 ml-0 md:ml-64 flex flex-col p-4 md:p-8">
       {/* Background with animated gradient */}
       <div className="fixed inset-0 -z-10"></div>
 
