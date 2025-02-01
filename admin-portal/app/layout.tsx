@@ -7,6 +7,7 @@ import Navbar from "@/components/navbar";
 import { SidebarProvider } from "@/hooks/useSidebar";
 import { LanguageProvider } from "@/hooks/useLanguage";
 import { Toaster } from "@/components/ui/toaster";
+import { UpdateFormProvider } from "@/hooks/useUpdateForm";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,12 +41,14 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LanguageProvider>
-            <SidebarProvider>
-              <Sidebar />
-              <Navbar />
-              {children}
-              <Toaster />
-            </SidebarProvider>
+            <UpdateFormProvider>
+              <SidebarProvider>
+                <Sidebar />
+                <Navbar />
+                {children}
+                <Toaster />
+              </SidebarProvider>
+            </UpdateFormProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

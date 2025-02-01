@@ -1,25 +1,24 @@
 "use client";
 
-import { useLanguage } from "@/hooks/useLanguage";
 import { useSidebar } from "@/hooks/useSidebar";
 import { BookOpen } from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar() {
   const { toggleSidebar } = useSidebar();
-  const { language } = useLanguage();
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white border-b shadow-sm dark:bg-gray-950 dark:border-gray-800 z-50">
       <div className="container mx-auto px-6 py-3">
-        <div className="flex items-center">
-          <div className="flex items-center gap-2 mr-5">
+        <div className="flex items-center justify-between">
+          <Link href={'/'} className="flex items-center gap-2 mr-5">
             <BookOpen size={28} className="text-purple-600" />
             <h2 className="text-xl font-semibold">
               KelimeUsta
             </h2>
-          </div>
+          </Link>
 
-          <div className="relative mx-auto">
+          {/* <div className="relative mx-auto">
             <input
               type="text"
               className="w-[90%] md:w-[30rem] h-[2.6rem] pl-10 pr-4 tracking-wider border border-gray-400 rounded-lg dark:bg-gray-950 dark:border-gray-500 dark:text-gray-100 active:ring-1 active:ring-purple-600 dark:active:ring-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 dark:focus:ring-purple-600"
@@ -41,7 +40,7 @@ export default function Navbar() {
               <circle cx={10} cy={10} r={7} />
               <line x1={21} y1={21} x2={15} y2={15} />
             </svg>
-          </div>
+          </div> */}
 
           <div
             className={`md:hidden z-50`}

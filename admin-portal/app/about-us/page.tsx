@@ -25,40 +25,44 @@ export default function AboutUs() {
       linkedin: "https://linkedin.com",
       email: "email@example.com"
     },
-    {
-      name: "Team Member 2",
-      role: "Language Expert & Content Lead",
-      trRole: "Dil Uzmanı & İçerik Lideri",
-      image: "/api/placeholder/400/400",
-      bio: "Brings extensive experience in Turkish language education and curriculum development.",
-      trBio: "Türkçe dil eğitimi ve müfredat geliştirme konusunda geniş deneyim sunar.",
-      contributions: ["Content Strategy", "Language Resources", "Educational Design"],
-      trContributions: ["İçerik Stratejisi", "Dil Kaynakları", "Eğitim Tasarımı"],
-      skills: ["Turkish Language", "Content Creation", "Educational Design"],
-      trSkills: ["Türkçe Dil", "İçerik Oluşturma", "Eğitim Tasarımı"],
-      github: "https://github.com",
-      linkedin: "https://linkedin.com",
-      email: "email@example.com"
-    },
-    {
-      name: "Team Member 2",
-      role: "Language Expert & Content Lead",
-      trRole: "Dil Uzmanı & İçerik Lideri",
-      image: "/api/placeholder/400/400",
-      bio: "Brings extensive experience in Turkish language education and curriculum development.",
-      trBio: "Türkçe dil eğitimi ve müfredat geliştirme konusunda geniş deneyim sunar.",
-      contributions: ["Content Strategy", "Language Resources", "Educational Design"],
-      trContributions: ["İçerik Stratejisi", "Dil Kaynakları", "Eğitim Tasarımı"],
-      skills: ["Kurdish Language", "Content Creation", "Educational Design"],
-      trSkills: ["Kürtçe Dil", "İçerik Oluşturma", "Eğitim Tasarımı"],
-      github: "https://github.com",
-      linkedin: "https://linkedin.com",
-      email: "email@example.com"
-    },
+    // {
+    //   name: "Team Member 2",
+    //   role: "Language Expert & Content Lead",
+    //   trRole: "Dil Uzmanı & İçerik Lideri",
+    //   image: "/api/placeholder/400/400",
+    //   bio: "Brings extensive experience in Turkish language education and curriculum development.",
+    //   trBio: "Türkçe dil eğitimi ve müfredat geliştirme konusunda geniş deneyim sunar.",
+    //   contributions: ["Content Strategy", "Language Resources", "Educational Design"],
+    //   trContributions: ["İçerik Stratejisi", "Dil Kaynakları", "Eğitim Tasarımı"],
+    //   skills: ["Turkish Language", "Content Creation", "Educational Design"],
+    //   trSkills: ["Türkçe Dil", "İçerik Oluşturma", "Eğitim Tasarımı"],
+    //   github: "https://github.com",
+    //   linkedin: "https://linkedin.com",
+    //   email: "email@example.com"
+    // },
+    // {
+    //   name: "Team Member 2",
+    //   role: "Language Expert & Content Lead",
+    //   trRole: "Dil Uzmanı & İçerik Lideri",
+    //   image: "/api/placeholder/400/400",
+    //   bio: "Brings extensive experience in Turkish language education and curriculum development.",
+    //   trBio: "Türkçe dil eğitimi ve müfredat geliştirme konusunda geniş deneyim sunar.",
+    //   contributions: ["Content Strategy", "Language Resources", "Educational Design"],
+    //   trContributions: ["İçerik Stratejisi", "Dil Kaynakları", "Eğitim Tasarımı"],
+    //   skills: ["Kurdish Language", "Content Creation", "Educational Design"],
+    //   trSkills: ["Kürtçe Dil", "İçerik Oluşturma", "Eğitim Tasarımı"],
+    //   github: "https://github.com",
+    //   linkedin: "https://linkedin.com",
+    //   email: "email@example.com"
+    // },
   ];
 
   return (
-    <div className="min-h-screen mt-16 ml-0 md:ml-64 flex flex-col p-4 md:p-8">
+    <div className="relative min-h-screen mt-28 md:mt-16 ml-0 md:ml-64 flex flex-col p-4 md:p-8">
+      <Badge variant="destructive" className="absolute -top-10 right-0.5 md:top-4 md:right-4">
+        { language === "en" ? "This page is not yet available in Kurdish. Please switch to English or Turkish to view the content." : language === "tr" ? "Bu sayfa henüz Kürtçe olarak mevcut değil. İçeriği görüntülemek için İngilizce veya Türkçe'ye geçiş yapın." : "Ev rûpel hîna bi kurdî nîne. Ji kerema xwe ji bo dîtina naverokê veguherînin Îngilîzî an Tirkî." }
+      </Badge>
+
       <div className="max-w-7xl w-full mx-auto">
         {/* Header Section */}
         <div className="flex items-center gap-3 mb-8">
@@ -129,6 +133,7 @@ export default function AboutUs() {
         <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
           { language === "tr" ? "Ekibimiz" : "Our Team" }
         </h2>
+        {/* centering the cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {teamMembers.map((member, index) => (
             <Card key={index} className="border-purple-100 dark:border-purple-900 hover:shadow-lg transition-shadow">

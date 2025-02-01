@@ -74,6 +74,7 @@ export default function Sidebar() {
                   "hover:shadow-sm",
                   isActiveLink("/") && "bg-purple-50 text-purple-700 border-purple-100 shadow-sm dark:bg-purple-950/50 dark:text-purple-400 dark:border-purple-900"
                 )}
+                onClick={() => !isDesktop && toggleSidebar()}
               >
                 <Home size={18} />
                 <span className="font-medium">
@@ -102,6 +103,7 @@ export default function Sidebar() {
                         "hover:shadow-sm",
                         isActiveLink("/add-words") && "bg-purple-50 text-purple-700 border-purple-100 shadow-sm dark:bg-purple-950/50 dark:text-purple-400 dark:border-purple-900"
                       )}
+                      onClick={() => !isDesktop && toggleSidebar()}
                     >
                       <Plus size={18} />
                       <span className="font-medium">
@@ -120,6 +122,7 @@ export default function Sidebar() {
                         "hover:shadow-sm",
                         isActiveLink("/manage-words") && "bg-purple-50 text-purple-700 border-purple-100 shadow-sm dark:bg-purple-950/50 dark:text-purple-400 dark:border-purple-900"
                       )}
+                      onClick={() => !isDesktop && toggleSidebar()}
                     >
                       <List size={18} />
                       <span className="font-medium">
@@ -203,8 +206,9 @@ export default function Sidebar() {
                         "hover:shadow-sm",
                         isActiveLink("/get-started") && "bg-purple-50 text-purple-700 border-purple-100 shadow-sm dark:bg-purple-950/50 dark:text-purple-400 dark:border-purple-900"
                       )}
+                      onClick={() => !isDesktop && toggleSidebar()}
                     >
-                      <Users size={18} />
+                      <CircleHelp size={18} />
                       <span className="font-medium">
                         { language === "en" ? "Get Started" : language === "tr" ? "Başlangıç" : language === "ku" ? "Destpêk" : "Get Started" }
                       </span>
@@ -221,28 +225,11 @@ export default function Sidebar() {
                         "hover:shadow-sm",
                         isActiveLink("/about-us") && "bg-purple-50 text-purple-700 border-purple-100 shadow-sm dark:bg-purple-950/50 dark:text-purple-400 dark:border-purple-900"
                       )}
+                      onClick={() => !isDesktop && toggleSidebar()}
                     >
                       <Users size={18} />
                       <span className="font-medium">
                         { language === "en" ? "About Us" : language === "tr" ? "Hakkımızda" : language === "ku" ? "Me" : "About Us" }
-                      </span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/contact-us"
-                      className={cn(
-                        "flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200",
-                        "border border-transparent",
-                        "hover:border-purple-100 hover:bg-purple-50/50 hover:text-purple-700",
-                        "dark:hover:border-purple-900 dark:hover:bg-purple-950/50 dark:hover:text-purple-400",
-                        "hover:shadow-sm",
-                        isActiveLink("/contact-us") && "bg-purple-50 text-purple-700 border-purple-100 shadow-sm dark:bg-purple-950/50 dark:text-purple-400 dark:border-purple-900"
-                      )}
-                    >
-                      <CircleHelp size={18} />
-                      <span className="font-medium">
-                        { language === "en" ? "Contact Us" : language === "tr" ? "İletişim" : language === "ku" ? "Pêwîst" : "Contact Us" }
                       </span>
                     </Link>
                   </li>

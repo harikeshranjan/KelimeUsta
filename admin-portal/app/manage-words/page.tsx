@@ -11,6 +11,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Book, MoreVertical, Pencil, Trash2, Search, Plus, FileDown, Filter, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, } from "lucide-react";
 import { convertToCSV, downloadCSV, DataRow } from "@/lib/export";
 import { useLanguage } from "@/hooks/useLanguage";
+import UpdateForm from "@/components/update-form";
+import { useUpdateForm } from "@/hooks/useUpdateForm";
+import { useToast } from "@/hooks/use-toast";
 
 interface Word extends DataRow {
   _id: number;
@@ -31,6 +34,8 @@ export default function ManageWordsPage() {
   const [itemsPerPage] = useState(30);
   const router = useRouter();
   const { language } = useLanguage();
+  const { isUpdateFormOpen, toggleUpdateForm, setSId, setSWord, setSMeaning, setSWordType, setSExample, setSExampleTranslation } = useUpdateForm();
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchWords = async () => {
@@ -53,7 +58,10 @@ export default function ManageWordsPage() {
     };
 
     fetchWords();
-  }, []);
+  }, [
+    isUpdateFormOpen,
+    toggleUpdateForm,
+  ]);
 
   const debouncedSearch = useCallback(
     debounce((value: string) => {
@@ -201,6 +209,38 @@ export default function ManageWordsPage() {
     }
   };
 
+  const fetchWordsById = async (wordId: number) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/vocabs/get/${wordId}`);
+      if (!response.ok) {
+        toast({
+          title: "Error",
+          description: "Failed to fetch word",
+          variant:"destructive",
+          duration: 5000,
+        })
+      }
+      
+      if (response.ok) {
+        const data = await response.json();
+        setSId(data._id);
+        setSWord(data.word);
+        setSMeaning(data.meaning);
+        setSWordType(data.type);
+        setSExample(data.example);
+        setSExampleTranslation(data.exampleMeaning);
+      }
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+      return null;
+    }
+  }
+
+  const updateWord = async (wordId: number) => {
+    toggleUpdateForm();
+    fetchWordsById(wordId);
+  }
+
   const wordTypes = [
     { value: "noun", label: "Noun", trLabel: "İsim" },
     { value: "verb", label: "Verb", trLabel: "Fiil" },
@@ -213,7 +253,7 @@ export default function ManageWordsPage() {
   ] as const;
 
   return (
-    <div className="min-h-screen ml-0 md:ml-64 flex flex-col p-4 md:p-8">
+    <div className="relative min-h-screen ml-0 md:ml-64 flex flex-col p-4 md:p-8">
       <div className="max-w-7xl w-full mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <Book className="h-8 w-8 text-purple-600 dark:text-purple-400" />
@@ -343,7 +383,7 @@ export default function ManageWordsPage() {
                                 <DropdownMenuContent align="end">
                                   <DropdownMenuItem
                                     className="flex items-center gap-2"
-                                    onClick={() => router.push(`/edit-word/${word._id}`)}
+                                    onClick={() => updateWord(word._id)}
                                   >
                                     <Pencil className="h-4 w-4" /> {language === "en" ? "Edit" : "Düzenle"}
                                   </DropdownMenuItem>
@@ -368,6 +408,8 @@ export default function ManageWordsPage() {
           </CardContent>
         </Card>
       </div>
+
+      {isUpdateFormOpen && <UpdateForm onClose={toggleUpdateForm} />}
     </div>
   );
 }
