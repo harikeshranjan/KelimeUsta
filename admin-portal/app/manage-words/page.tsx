@@ -249,7 +249,7 @@ export default function ManageWordsPage() {
     { value: "conjunction", label: "Conjunction", trLabel: "Bağlaç", kuLabel: "Têkilî" },
     { value: "preposition", label: "Preposition", trLabel: "Edat", kuLabel: "Laçik" },
     { value: "interjection", label: "Interjection", trLabel: "Ünlem", kuLabel: "Têkîl" },
-    { value: "pronoun", label: "Pronouns", trLabel: "Zamir", kuLabel: "Cînavk" },
+    { value: "pronoun", label: "Pronoun", trLabel: "Zamir", kuLabel: "Cînavk" },
   ] as const;
 
   return (
