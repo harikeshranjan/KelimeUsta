@@ -14,7 +14,7 @@ export default function AboutUs() {
       name: "Harikesh Ranjan Sinha",
       role: "Founder & Lead Developer",
       trRole: "Kurucu & Baş Geliştirici",
-      image: "/api/placeholder/400/400",
+      image: "/NewDP.jpeg",
       bio: "Initiated the KelimeUsta project with the vision of making Turkish language learning accessible and enjoyable for everyone.",
       trBio: "Türkçe dil öğrenimini herkes için erişilebilir ve keyifli hale getirme vizyonuyla KelimeUsta projesini başlattı.",
       contributions: ["Project Architecture", "Core Development", "UI/UX Design"],
@@ -59,7 +59,7 @@ export default function AboutUs() {
 
   return (
     <div className="relative min-h-screen mt-28 md:mt-16 ml-0 md:ml-64 flex flex-col p-4 md:p-8">
-      <Badge variant="destructive" className="absolute -top-10 right-0.5 md:top-4 md:right-4">
+      <Badge variant="destructive" className="absolute -top-10 right-0.5 md:top-4 md:right-7">
         { language === "en" ? "This page is not yet available in Kurdish. Please switch to English or Turkish to view the content." : language === "tr" ? "Bu sayfa henüz Kürtçe olarak mevcut değil. İçeriği görüntülemek için İngilizce veya Türkçe'ye geçiş yapın." : "Ev rûpel hîna bi kurdî nîne. Ji kerema xwe ji bo dîtina naverokê veguherînin Îngilîzî an Tirkî." }
       </Badge>
 
@@ -142,7 +142,7 @@ export default function AboutUs() {
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-24 h-24 rounded-full mb-4 bg-purple-100"
+                    className="w-24 h-24 rounded-full mb-4 bg-purple-100 dark:bg-purple-900/50 border-2 border-purple-200 dark:border-purple-800 object-cover"
                   />
                   <h3 className="text-xl font-semibold text-center">{member.name}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
