@@ -1,7 +1,7 @@
 "use client";
 
 import { useSidebar } from "@/hooks/useSidebar";
-import { BookOpen } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar() {
@@ -12,35 +12,11 @@ export default function Navbar() {
       <div className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           <Link href={'/'} className="flex items-center gap-2 mr-5">
-            <BookOpen size={28} className="text-purple-600" />
+            <Image src="/kelimeusta-logo.png" width={40} height={40} alt="KelimeUsta Logo" />
             <h2 className="text-xl font-semibold">
               KelimeUsta
             </h2>
           </Link>
-
-          {/* <div className="relative mx-auto">
-            <input
-              type="text"
-              className="w-[90%] md:w-[30rem] h-[2.6rem] pl-10 pr-4 tracking-wider border border-gray-400 rounded-lg dark:bg-gray-950 dark:border-gray-500 dark:text-gray-100 active:ring-1 active:ring-purple-600 dark:active:ring-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 dark:focus:ring-purple-600"
-              placeholder={language === "en" ? "Search for a word" : language === "tr" ? "Kelime ara" : "Kelime axtar"}
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="absolute top-2.5 left-3 text-gray-400 dark:text-gray-500"
-              width={20}
-              height={20}
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" />
-              <circle cx={10} cy={10} r={7} />
-              <line x1={21} y1={21} x2={15} y2={15} />
-            </svg>
-          </div> */}
 
           <div
             className={`md:hidden z-50`}

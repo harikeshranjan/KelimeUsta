@@ -1,10 +1,11 @@
 "use client";
 
-import { BookOpen, Book, Gamepad, Trophy } from "lucide-react";
+import { Book, Gamepad, Trophy } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Home() {
   const { language } = useLanguage();
@@ -15,7 +16,7 @@ export default function Home() {
       {/* Hero Section */}
       <div className="mb-8 p-8 rounded-2xl">
         <div className="flex items-center gap-4 mb-6">
-          <BookOpen size={40} className="text-purple-600 dark:text-purple-400" />
+          <Image src="/kelimeusta-logo.png" width={40} height={40} alt="KelimeUsta Logo" />
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-700 to-purple-500 dark:from-purple-400 dark:to-purple-300 bg-clip-text text-transparent">
             {language === "en" ? "Welcome to KelimeUsta Admin Portal" : language === "tr" ? "KelimeUsta Yönetici Portalına Hoşgeldiniz" : "Hûn bi xêr hatin Portala Admin KelimeUsta"}
           </h1>
