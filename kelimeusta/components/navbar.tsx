@@ -15,16 +15,15 @@ import {
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
 import { CircleHelp, Home, LucideIcon, Rows4, Sticker, BookOpen, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { cn } from '@/lib/utils';
+import { useHotkeys } from "react-hotkeys-hook";
 
 interface DropdownItem {
   href: string;
@@ -44,6 +43,10 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const { language, setLanguage } = useLanguage();
+
+  useHotkeys("shift+l", () => {
+    setLanguage(language === 'en' ? 'tr' : 'en');
+  });
 
   const navItems: NavItem[] = [
     { href: '/', label: 'Home', icon: Home, trLabel: 'Anasayfa' },
