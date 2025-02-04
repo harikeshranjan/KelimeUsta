@@ -31,7 +31,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="py-8">
+    <footer className="py-8 border-t">
       <div className="container mx-auto flex flex-col justify-evenly md:flex-row gap-8 px-6 lg:px-8">
         {/* Navigation Links */}
         <div>
