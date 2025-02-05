@@ -12,10 +12,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useLanguage } from "@/hooks/useLanguage"
+import { useHotkeys } from "react-hotkeys-hook";
 
 export function ModeToggle() {
   const { setTheme } = useTheme()
   const { language } = useLanguage()
+
+  const toggleTheme = () => {
+    setTheme((theme) => (theme === "light" ? "dark" : "light"))
+  }
+  useHotkeys("shift+t", () => toggleTheme())
 
   return (
     <DropdownMenu>
