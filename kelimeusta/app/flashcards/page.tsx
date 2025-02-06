@@ -18,18 +18,11 @@ interface Flashcard {
   exampleMeaning: string;
 }
 
-interface FlashcardReport {
-  word: string;
-  type: "spelling" | "meaning" | "example" | "exampleMeaning" | "none";
-}
-
 const ReportModal = ({
-  word,
   onClose,
   onReport,
   language
 }: {
-  word: string,
   onClose: () => void,
   onReport: (type: string) => void,
   language: string
@@ -277,7 +270,6 @@ export default function Flashcards() {
       {/* Report Modal */}
       {showReportModal && (
         <ReportModal
-          word={flashcards[0]?.word || ""}
           onClose={() => setShowReportModal(false)}
           onReport={handleReport}
           language={language}
