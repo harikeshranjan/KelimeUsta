@@ -7,7 +7,7 @@ export default function Home() {
   const { language} = useLanguage();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white dark:from-gray-900 dark:to-gray-800 mt-4">
       {/* Hero Section */}
       <div className="relative px-6 lg:px-8">
         <div className="mx-auto max-w-6xl pt-20 pb-20">

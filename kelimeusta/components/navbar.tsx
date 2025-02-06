@@ -24,11 +24,13 @@ import { CircleHelp, Home, LucideIcon, Rows4, Sticker, BookOpen, ChevronDown } f
 import { useLanguage } from '@/hooks/useLanguage';
 import { cn } from '@/lib/utils';
 import { useHotkeys } from "react-hotkeys-hook";
+import { Badge } from './ui/badge';
 
 interface DropdownItem {
   href: string;
   label: string;
   trLabel: string;
+  isNew?: boolean;
 }
 
 interface NavItem {
@@ -36,6 +38,7 @@ interface NavItem {
   icon: LucideIcon;
   label: string;
   trLabel: string;
+  isNew?: boolean;
   dropdown?: DropdownItem[];
 }
 
@@ -56,12 +59,12 @@ const Navbar = () => {
       label: 'Introduction',
       trLabel: 'Giriş',
       dropdown: [
-        { href: '/introduction/alphabets', label: 'Alphabets', trLabel: 'Alfabeler' },
-        { href: '/introduction/tense', label: 'Tense', trLabel: 'Zaman' },
+        { href: '/introduction/alphabets', label: 'Alphabets', trLabel: 'Alfabeler', isNew: true },
+        { href: '/introduction/tense', label: 'Tense', trLabel: 'Zaman', isNew: true },
       ]
     },
     { href: '/flashcards', icon: Sticker, label: 'Flashcards', trLabel: 'Kartlar' },
-    { href: '/paragraph', icon: Rows4, label: 'Paragraphs', trLabel: 'Paragraflar' },
+    { href: '/paragraph', icon: Rows4, label: 'Paragraphs', trLabel: 'Paragraflar', isNew: true },
     { href: '/about-us', icon: CircleHelp, label: 'About Us', trLabel: 'Hakkımızda' },
   ];
 
@@ -81,7 +84,7 @@ const Navbar = () => {
           <a
             ref={ref}
             className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-purple-100 hover:text-purple-600 dark:hover:bg-purple-900/30 dark:hover:text-purple-400",
+              "relative block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-purple-100 hover:text-purple-600 dark:hover:bg-purple-900/30 dark:hover:text-purple-400",
               className
             )}
             {...props}
@@ -120,10 +123,17 @@ const Navbar = () => {
                       href={dropdownItem.href}
                       title={language === 'en' ? dropdownItem.label : dropdownItem.trLabel}
                     >
-                      {language === 'en' 
+                      {language === 'en'
                         ? `Learn about ${dropdownItem.label.toLowerCase()} in Turkish language`
                         : `Türk dilindeki ${dropdownItem.trLabel.toLowerCase()} hakkında bilgi edinin`
                       }
+                      {dropdownItem.isNew && (
+                        <Badge
+                          className="absolute top-1 right-1 transform translate-x-1 -translate-y-1"
+                        >
+                          New
+                        </Badge>
+                      )}
                     </ListItem>
                   ))}
                 </ul>
@@ -140,27 +150,31 @@ const Navbar = () => {
         className="relative px-3 py-2 font-medium text-gray-600 dark:text-gray-300 group"
       >
         <span className={`flex gap-2 items-center relative z-10 transition-colors duration-300 ${isActiveLink(item.href)
-            ? 'text-purple-600 dark:text-purple-400'
-            : 'group-hover:text-purple-600 dark:group-hover:text-purple-400'
+          ? 'text-purple-600 dark:text-purple-400'
+          : 'group-hover:text-purple-600 dark:group-hover:text-purple-400'
           }`}>
           <item.icon size={20} />
           {language === 'en' ? item.label : item.trLabel}
         </span>
         <span className={`absolute inset-x-0 -bottom-0.5 h-0.5 bg-purple-500 transition-transform duration-300 ease-out ${isActiveLink(item.href)
-            ? 'scale-x-100'
-            : 'scale-x-0 group-hover:scale-x-100'
+          ? 'scale-x-100'
+          : 'scale-x-0 group-hover:scale-x-100'
           }`} />
         <span className={`absolute inset-0 rounded-lg -z-10 bg-purple-100 dark:bg-purple-900/30 transition-all duration-300 ${isActiveLink(item.href)
-            ? 'opacity-100 scale-100'
-            : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+          ? 'opacity-100 scale-100'
+          : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
           }`} />
+        {item.isNew && (
+          <Badge className="absolute -top-2 -right-4">
+            New
+          </Badge>
+        )}
       </Link>
     );
   };
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
-      {/* Your existing JSX structure */}
       <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -266,8 +280,8 @@ const Navbar = () => {
                   <button
                     onClick={() => { }}
                     className={`flex items-center justify-between w-full px-4 py-3 rounded ${isActiveLink(item.href)
-                        ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                      ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50'
                       }`}
                   >
                     <span className="flex items-center gap-2">
@@ -282,8 +296,8 @@ const Navbar = () => {
                         key={dropdownItem.href}
                         href={dropdownItem.href}
                         className={`block px-4 py-2 rounded ${isActiveLink(dropdownItem.href)
-                            ? 'text-purple-600 dark:text-purple-400'
-                            : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400'
+                          ? 'text-purple-600 dark:text-purple-400'
+                          : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400'
                           }`}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
@@ -296,15 +310,15 @@ const Navbar = () => {
                 <Link
                   href={item.href}
                   className={`group relative flex items-center px-4 py-3 rounded transition-all duration-200 ${isActiveLink(item.href)
-                      ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                    ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50'
                     }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <div className="relative flex items-center">
                     <span className={`flex items-center justify-center gap-2 text-base font-medium transition-transform group-hover:translate-x-1 ${isActiveLink(item.href)
-                        ? 'text-purple-600 dark:text-purple-400'
-                        : 'group-hover:text-purple-600 dark:group-hover:text-purple-400'
+                      ? 'text-purple-600 dark:text-purple-400'
+                      : 'group-hover:text-purple-600 dark:group-hover:text-purple-400'
                       }`}>
                       <item.icon size={20} />
                       {language === 'en' ? item.label : item.trLabel}
