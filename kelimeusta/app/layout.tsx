@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
 import { LangaugeProvider } from "@/hooks/useLanguage";
 import Footer from "@/components/footer";
+import { FlashcardReportProvider } from "@/hooks/useFlashcardReport";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,9 +40,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
-            {children}
-            <Footer />
+            <FlashcardReportProvider>
+              <Navbar />
+              {children}
+              <Toaster />
+              <Footer />
+            </FlashcardReportProvider>
           </ThemeProvider>
         </LangaugeProvider>
       </body>

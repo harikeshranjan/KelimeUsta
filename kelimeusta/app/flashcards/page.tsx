@@ -3,8 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Bug, Shuffle, Loader2 } from "lucide-react";
+import { Bug, Shuffle, Loader2, X } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useFlashcardReport } from "@/hooks/useFlashcardReport";
+import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface Flashcard {
   _id: string;
@@ -14,11 +18,85 @@ interface Flashcard {
   exampleMeaning: string;
 }
 
+interface FlashcardReport {
+  word: string;
+  type: "spelling" | "meaning" | "example" | "exampleMeaning" | "none";
+}
+
+const ReportModal = ({
+  word,
+  onClose,
+  onReport,
+  language
+}: {
+  word: string,
+  onClose: () => void,
+  onReport: (type: string) => void,
+  language: string
+}) => {
+  const [selectedType, setSelectedType] = useState<string>("none");
+
+  const reportTypes = [
+    { value: "spelling", label: language === "en" ? "Spelling Issue" : "Yazım Hatası" },
+    { value: "meaning", label: language === "en" ? "Meaning Issue" : "Anlam Hatası" },
+    { value: "example", label: language === "en" ? "Example Issue" : "Örnek Hatası" },
+    { value: "exampleMeaning", label: language === "en" ? "Example Meaning Issue" : "Örnek Anlamı Hatası" }
+  ];
+
+  const handleSubmit = () => {
+    onReport(selectedType);
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-80 relative">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute top-2 right-2"
+          onClick={onClose}
+        >
+          <X className="w-5 h-5" />
+        </Button>
+
+        <h2 className="text-lg font-semibold mb-4">
+          {language === "en" ? "Report Issue" : "Sorun Bildir"}
+        </h2>
+
+        <div className="space-y-3">
+          {reportTypes.map((type) => (
+            <div key={type.value} className="flex items-center space-x-2">
+              <Checkbox
+                id={type.value}
+                checked={selectedType === type.value}
+                onCheckedChange={() => setSelectedType(type.value)}
+              />
+              <Label htmlFor={type.value}>{type.label}</Label>
+            </div>
+          ))}
+        </div>
+
+        <Button
+          className="w-full mt-4"
+          onClick={handleSubmit}
+          disabled={selectedType === "none"}
+        >
+          {language === "en" ? "Submit Report" : "Raporu Gönder"}
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 export default function Flashcards() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const { setReport } = useFlashcardReport();
   const { language } = useLanguage();
+  const { toast } = useToast();
 
   const fetchRandomFlashcard = async () => {
     try {
@@ -78,6 +156,48 @@ export default function Flashcards() {
     );
   }
 
+  const handleReport = async (type: string) => {
+    const word = flashcards[0]?.word;
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/flashcards/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ word, type }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: language === "en" ? "Report submitted" : "Rapor gönderildi",
+          description:
+            language === "en"
+              ? "Thank you for helping us improve the flashcards."
+              : "Kartları iyileştirmemize yardımcı olduğunuz için teşekkür ederiz.",
+          variant: "default",
+          duration: 5000,
+        });
+
+        setReport({ word: "", type: "none" });
+      }
+
+      if (!response.ok) {
+        toast({
+          title: language === "en" ? "Error" : "Hata",
+          description:
+            language === "en"
+              ? "Failed to submit report. Please try again later."
+              : "Rapor gönderilemedi. Lütfen daha sonra tekrar deneyin.",
+          variant: "destructive",
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      console.error("Error reporting flashcard:", error);
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 mt-16">
       <h1 className="text-4xl font-bold text-center mb-4">{language === "en" ? "Flashcards" : "Kartlar"}</h1>
@@ -102,7 +222,7 @@ export default function Flashcards() {
                 ) : (
                   <>
                     <span className="text-sm text-gray-400 dark:text-gray-300 animate-pulse">
-                      { language === "en" ? "Click to flip" : "Çevirmek için tıklayın" }
+                      {language === "en" ? "Click to flip" : "Çevirmek için tıklayın"}
                     </span>
                     <p className="text-4xl font-semibold text-center text-purple-700 dark:text-purple-100">
                       {flashcards[0]?.word}
@@ -117,9 +237,13 @@ export default function Flashcards() {
               <div className="flex flex-col h-full">
                 {/* report button */}
                 <div className="absolute top-4 right-4">
-                  <button className="text-xs text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100 focus:outline-none">
+                  <Button
+                    variant={"ghost"}
+                    className="text-xs text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100 focus:outline-none hover:bg-transparent"
+                    onClick={() => setShowReportModal(true)}
+                  >
                     <Bug className="w-5 h-5" />
-                  </button>
+                  </Button>
                 </div>
 
                 <div className="flex-1 flex flex-col items-center justify-center space-y-6">
@@ -149,6 +273,16 @@ export default function Flashcards() {
           </div>
         </div>
       </div>
+
+      {/* Report Modal */}
+      {showReportModal && (
+        <ReportModal
+          word={flashcards[0]?.word || ""}
+          onClose={() => setShowReportModal(false)}
+          onReport={handleReport}
+          language={language}
+        />
+      )}
 
       <div className="text-center">
         <Button
