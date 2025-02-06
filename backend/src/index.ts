@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import vocabRoutes from "./routes/vocabs";
+import flashcardReportRoutes from "./routes/flashcard-report";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(
   cors({
     origin: [
       process.env.CLIENT_URL as string,
+      process.env.ADMIN_URL as string,
       "http://localhost:3000",
     ],
     credentials: true,
@@ -28,6 +30,7 @@ mongoose.connect(process.env.MONGO_URI as string, { dbName: "KelimeUsta" })
   .catch((err) => console.log("[db]: Database connection failed", err));
 
 app.use("/vocabs", vocabRoutes);
+app.use("/flashcard-reports", flashcardReportRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
