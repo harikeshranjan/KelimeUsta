@@ -5,6 +5,7 @@ import cors from "cors";
 
 import vocabRoutes from "./routes/vocabs";
 import flashcardReportRoutes from "./routes/flashcard-report";
+import contributorRoutes from "./routes/contributors";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ mongoose.connect(process.env.MONGO_URI as string, { dbName: "KelimeUsta" })
 
 app.use("/vocabs", vocabRoutes);
 app.use("/flashcards", flashcardReportRoutes);
+app.use("/contributors", contributorRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
