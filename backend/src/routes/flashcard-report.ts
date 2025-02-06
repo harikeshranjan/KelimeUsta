@@ -6,16 +6,16 @@ const router = Router();
 // Add a new flashcard report
 router.post("/add", async (req: Request, res: Response) => {
   try {
-    const { flashcardId, report } = req.body;
+    const { word, type } = req.body;
 
-    const flashcardReportExists = await flashcardReportModel.findOne({ flashcardId });
+    const flashcardReportExists = await flashcardReportModel.findOne({ word });
 
     if (flashcardReportExists) {
       res.status(400).json({ message: "Flashcard report already exists" });
       return;
     }
 
-    const newFlashcardReport = await flashcardReportModel.create({ flashcardId, report });
+    const newFlashcardReport = await flashcardReportModel.create({ word, type });
 
     res.status(201).json(newFlashcardReport);
   } catch (error: any) {

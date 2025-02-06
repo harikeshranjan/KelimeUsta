@@ -30,7 +30,7 @@ mongoose.connect(process.env.MONGO_URI as string, { dbName: "KelimeUsta" })
   .catch((err) => console.log("[db]: Database connection failed", err));
 
 app.use("/vocabs", vocabRoutes);
-app.use("/flashcard-reports", flashcardReportRoutes);
+app.use("/flashcards", flashcardReportRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
