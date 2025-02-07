@@ -9,6 +9,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const vocabs_1 = __importDefault(require("./routes/vocabs"));
 const flashcard_report_1 = __importDefault(require("./routes/flashcard-report"));
+const contributors_1 = __importDefault(require("./routes/contributors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -28,6 +29,7 @@ mongoose_1.default.connect(process.env.MONGO_URI, { dbName: "KelimeUsta" })
     .catch((err) => console.log("[db]: Database connection failed", err));
 app.use("/vocabs", vocabs_1.default);
 app.use("/flashcards", flashcard_report_1.default);
+app.use("/contributors", contributors_1.default);
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });
