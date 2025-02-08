@@ -59,8 +59,8 @@ const Navbar = () => {
       label: 'Introduction',
       trLabel: 'Giriş',
       dropdown: [
-        { href: '/introduction/alphabets', label: 'Alphabets', trLabel: 'Alfabeler', isNew: true },
-        { href: '/introduction/tense', label: 'Tense', trLabel: 'Zaman', isNew: true },
+        { href: '/alphabets', label: 'Alphabets', trLabel: 'Alfabeler', isNew: true },
+        { href: '/tense', label: 'Tense', trLabel: 'Zaman', isNew: true },
       ]
     },
     { href: '/flashcards', icon: Sticker, label: 'Flashcards', trLabel: 'Kartlar' },
@@ -131,7 +131,7 @@ const Navbar = () => {
                         <Badge
                           className="absolute top-1 right-1 transform translate-x-1 -translate-y-1"
                         >
-                          New
+                          {language === 'en' ? 'New' : 'Yeni'}
                         </Badge>
                       )}
                     </ListItem>
@@ -166,7 +166,7 @@ const Navbar = () => {
           }`} />
         {item.isNew && (
           <Badge className="absolute -top-2 -right-4">
-            New
+            {language === 'en' ? 'New' : 'Yeni'}
           </Badge>
         )}
       </Link>
