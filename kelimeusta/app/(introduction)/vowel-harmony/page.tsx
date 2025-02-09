@@ -391,7 +391,7 @@ export default function VowelHarmony() {
               </Paragraph>
               <ul className="list-disc list-inside text-gray-700 dark:text-gray-300">
                 <li>Geldin mi? &#40;Did you come&#41;</li>
-                <li>O'nun evi &#40;His/her house&#41;</li>
+                <li>O&apos;nun evi &#40;His/her house&#41;</li>
               </ul>
             </div>
           </div>
