@@ -31,6 +31,7 @@ interface DropdownItem {
   label: string;
   trLabel: string;
   isNew?: boolean;
+  isUnderBuild?: boolean;
 }
 
 interface NavItem {
@@ -39,6 +40,7 @@ interface NavItem {
   label: string;
   trLabel: string;
   isNew?: boolean;
+  isUnderBuild?: boolean;
   dropdown?: DropdownItem[];
 }
 
@@ -61,10 +63,11 @@ const Navbar = () => {
       dropdown: [
         { href: '/alphabets', label: 'Alphabets', trLabel: 'Alfabeler', isNew: true },
         { href: '/tense', label: 'Tense', trLabel: 'Zaman', isNew: true },
+        { href: '/vowel-harmony', label: 'Vowel Harmony', trLabel: 'Ünlü Uyumu', isNew: true },
       ]
     },
     { href: '/flashcards', icon: Sticker, label: 'Flashcards', trLabel: 'Kartlar' },
-    { href: '/paragraph', icon: Rows4, label: 'Paragraphs', trLabel: 'Paragraflar', isNew: true },
+    { href: '/paragraph', icon: Rows4, label: 'Paragraphs', trLabel: 'Paragraflar', isUnderBuild: true },
     { href: '/about-us', icon: CircleHelp, label: 'About Us', trLabel: 'Hakkımızda' },
   ];
 
@@ -128,10 +131,13 @@ const Navbar = () => {
                         : `Türk dilindeki ${dropdownItem.trLabel.toLowerCase()} hakkında bilgi edinin`
                       }
                       {dropdownItem.isNew && (
-                        <Badge
-                          className="absolute top-1 right-1 transform translate-x-1 -translate-y-1"
-                        >
+                        <Badge className="absolute top-1 right-1 transform translate-x-1 -translate-y-1">
                           {language === 'en' ? 'New' : 'Yeni'}
+                        </Badge>
+                      )}
+                      {dropdownItem.isUnderBuild && (
+                        <Badge className="absolute top-1 right-1 transform translate-x-1 -translate-y-1">
+                          {language === 'en' ? 'Soon' : 'Yakında'}
                         </Badge>
                       )}
                     </ListItem>
@@ -167,6 +173,11 @@ const Navbar = () => {
         {item.isNew && (
           <Badge className="absolute -top-2 -right-4">
             {language === 'en' ? 'New' : 'Yeni'}
+          </Badge>
+        )}
+        {item.isUnderBuild && (
+          <Badge className="absolute -top-2 -right-4">
+            {language === 'en' ? 'Soon' : 'Yakında'}
           </Badge>
         )}
       </Link>
